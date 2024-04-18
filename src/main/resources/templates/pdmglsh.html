@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html>
+
+<!--这是一个添加订单的网页-->
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Demo</title>
+    <!-- 请勿在项目正式环境中引用该 layui.css 地址 -->
+    <link href="../layui/css/layui.css" rel="stylesheet">
+    <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=YtmxXSbklR5ff1eCiXZ2RPv41VoFmSBX"></script>
+    <script type="text/javascript" src="//api.map.baidu.com/library/LuShu/1.2/src/LuShu_min.js"></script>
+    <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=YtmxXSbklR5ff1eCiXZ2RPv41VoFmSBX"></script>
+    <script type="text/javascript" src="//api.map.baidu.com/library/LuShu/1.2/src/LuShu_min.js"></script>
+</head>
+
+<body>
+<style>
+    .demo-reg-container {
+        width: 320px;
+        margin: 21px auto 0;
+    }
+
+    .demo-reg-other .layui-icon {
+        position: relative;
+        display: inline-block;
+        margin: 0 2px;
+        top: 2px;
+        font-size: 26px;
+    }
+</style>
+<form class="layui-form">
+    <div class="demo-reg-container">
+        <div class="layui-form-item">
+            <div class="layui-input-wrap">
+                <div class="layui-input-prefix">
+                    <i class="layui-icon layui-icon-username"></i>
+                </div>
+                <input type="text" name="fhName" value="" lay-verify="required" placeholder="发货姓名" autocomplete="off"
+                       class="layui-input" lay-affix="clear">
+
+                <div class="layui-input-prefix">
+                    <i class="layui-icon layui-icon-username"></i>
+                </div>
+                <input type="text" name="fhDz" value="" lay-verify="required" placeholder="发货地址" autocomplete="off"
+                       class="layui-input" lay-affix="clear">
+
+                <div class="layui-input-prefix">
+                    <i class="layui-icon layui-icon-username"></i>
+                </div>
+                <input type="text" name="fhDh" value="" lay-verify="required" placeholder="发货人电话" autocomplete="off"
+                       class="layui-input" lay-affix="clear">
+
+                <div class="layui-input-prefix">
+                    <i class="layui-icon layui-icon-username"></i>
+                </div>
+                <input type="text" name="fhYb" value="" lay-verify="required" placeholder="邮编" autocomplete="off"
+                       class="layui-input" lay-affix="clear">
+
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <div class="layui-input-wrap">
+                <div class="layui-input-prefix">
+                    <i class="layui-icon layui-icon-username"></i>
+                </div>
+                <input type="text" name="shName" value="" lay-verify="required" placeholder="收货姓名" autocomplete="off"
+                       class="layui-input" lay-affix="clear">
+
+                <div class="layui-input-prefix">
+                    <i class="layui-icon layui-icon-username"></i>
+                </div>
+                <input type="text" name="shDz" value="" lay-verify="required" placeholder="收货地址" autocomplete="off"
+                       class="layui-input" lay-affix="clear">
+
+                <div class="layui-input-prefix">
+                    <i class="layui-icon layui-icon-username"></i>
+                </div>
+                <input type="text" name="shPhone" value="" lay-verify="required" placeholder="收货人电话" autocomplete="off"
+                       class="layui-input" lay-affix="clear">
+
+                <div class="layui-input-prefix">
+                    <i class="layui-icon layui-icon-username"></i>
+                </div>
+                <input type="text" name="shYb" value="" lay-verify="required" placeholder="邮编" autocomplete="off"
+                       class="layui-input" lay-affix="clear">
+
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-input-wrap">
+                <div class="layui-input-prefix">
+                    <i class="layui-icon layui-icon-username"></i>
+                </div>
+                <input type="text" name="huowuName" value="" lay-verify="required" placeholder="货物名称" autocomplete="off"
+                       class="layui-input" lay-affix="clear">
+
+                <div class="layui-input-prefix">
+                    <i class="layui-icon layui-icon-username"></i>
+                </div>
+                <input type="text" name="huowuSl" value="" lay-verify="required" placeholder="数量" autocomplete="off"
+                       class="layui-input" lay-affix="clear">
+
+                <div class="layui-input-prefix">
+                    <i class="layui-icon layui-icon-username"></i>
+                </div>
+                <input type="text" name="huowuZy" value="" lay-verify="required" placeholder="重量" autocomplete="off"
+                       class="layui-input" lay-affix="clear">
+
+                <div class="layui-input-prefix">
+                    <i class="layui-icon layui-icon-username"></i>
+                </div>
+                <input type="text" name="sj" value="" lay-verify="required" placeholder="时间" autocomplete="off"
+                       class="layui-input" lay-affix="clear">
+
+            </div>
+            <div class="layui-form-item">
+                <input type="checkbox" name="bz" lay-verify="required" lay-skin="primary" title="纸箱" value="纸箱">
+                <input type="checkbox" name="bz" lay-verify="required" lay-skin="primary" title="袋子" value="袋子">
+
+            </div>
+            <div class="layui-form-item">
+                <button class="layui-btn layui-btn-fluid" lay-submit lay-filter="demo-reg">确认</button>
+            </div>
+
+            <div class="layui-form-item">
+                <button class="layui-btn layui-btn-fluid" ><a th:href="@{/main}">取消</a></button>
+            </div>
+        </div>
+
+
+
+    </div>
+</form>
+
+<!-- 请勿在项目正式环境中引用该 layui.js 地址 -->
+<script src="../layui/layui.js"></script>
+
+<script>
+    layui.use(function () {
+        var $ = layui.$;
+        var form = layui.form;
+        var layer = layui.layer;
+        var util = layui.util;
+
+
+
+        // 提交事件
+        form.on('submit(demo-reg)', function (data) {
+            var field = data.field; // 获取表单字段值
+
+
+            // 显示填写结果，仅作演示用
+            // layer.alert(JSON.stringify(field), {
+            //     title: '当前填写的字段值'
+            // });
+
+            // 此处可执行 Ajax 等操作
+            // …
+            // 转换成json
+            var jsonf = JSON.stringify(field);
+            // layer.msg(jsonf);
+            $.ajax({
+                url: '/pdmgll', // Spring MVC 控制器路径
+                type: 'POST',
+                contentType: 'application/json; charset=utf-8',
+                data: jsonf,
+                // 服务器端返回的预期数据类型
+                // dataType: 'json',
+                // 发送成功以后的回调函数
+                success: function (successResponseData) {
+                    // 请求成功后的操作
+                    layer.msg(successResponseData);
+                },
+                // 发送失败后的回调函数
+                error: function (failedResponseData) {
+                    // 请求失败的操作
+                    layer.msg(failedResponseData);
+                }
+            });
+
+            // return false; // 阻止默认 form 跳转
+        });
+    });
+
+
+
+
+
+    // function a(){
+    //
+    //
+    //     alert(
+    //         "111"
+    //     )
+    //     $.ajax({
+    //         type: post,
+    //         url: '/pdmgll',
+    //         data:{
+    //             jsonDataFromTheFrontEnd: {
+    //                 "user_name": document.getElementsByTagName("user_name"),
+    //                 "user_dz": document.getElementsByTagName("user_dz"),
+    //                 "user_phone": document.getElementsByTagName("user_phone"),
+    //                 "user_yb": document.getElementsByTagName("user_yb"),
+    //
+    //                 "sh_name": document.getElementsByTagName("sh_name"),
+    //                 "sh_dz": document.getElementsByTagName("sh_dz"),
+    //                 "sh_phone": document.getElementsByTagName("sh_phone"),
+    //                 "sh_yb": document.getElementsByTagName("sh_yb"),
+    //                 "bz": document.getElementsByTagName("bz"),
+    //                 "fkfs": document.getElementsByTagName("fkfs"),
+    //                 "huowu_name": document.getElementsByTagName("huowu_name"),
+    //                 "huowu_sl": document.getElementsByTagName("huowu_sl"),
+    //                 "huowu_zy": document.getElementsByTagName("huowu_zy")
+    //             },
+    //             dataType: "json",
+    //
+    //         }
+    //     })
+    // }
+
+
+
+</script>
+
+</body>
+</html>

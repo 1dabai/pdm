@@ -1,0 +1,33 @@
+#这是一个非常重要的文件，设置了git提交时的过滤规则
+# Compiled class files
+*.class
+
+# Package files (if using Eclipse)
+*.jar
+*.war
+*.ear
+
+# Compiled output directories (examples for different build tools)
+target/
+out/
+build/
+.gradle/
+
+# IntelliJ IDEA
+*.iml
+.idea/
+
+# Eclipse
+.classpath
+.project
+.settings/
+
+# NetBeans
+nbproject/private/
+build-impl.xml
+nb-configuration.xml
+
+# Maven
+mvnw
+mvnw.cmd
+.mvn/

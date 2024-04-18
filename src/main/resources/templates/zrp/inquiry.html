@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<!-- saved from url=(0052)http://getbootstrap.com/docs/4.0/examples/dashboard/ -->
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>单据查询</title>
+    <!-- Bootstrap core CSS -->
+    <link href="../../../css/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom styles for this template -->
+    <link href="../../../css/dashboard.css" rel="stylesheet">
+    <style type="text/css">
+        /* Chart.js */
+        @-webkit-keyframes chartjs-render-animation {
+            from {
+                opacity: 0.99
+            }
+            to {
+                opacity: 1
+            }
+        }
+
+        @keyframes chartjs-render-animation {
+            from {
+                opacity: 0.99
+            }
+            to {
+                opacity: 1
+            }
+        }
+
+        .chartjs-render-monitor {
+            -webkit-animation: chartjs-render-animation 0.001s;
+            animation: chartjs-render-animation 0.001s;
+        }
+    </style>
+</head>
+
+<body>
+
+<!--顶部菜单 -->
+<div th:replace="~{topleft::topnav}"></div>
+<div class="container-fluid">
+    <div class="row">
+        <!--左菜单 -->
+        <div th:replace="~{topleft::#sidebarMenu(lurl='leftuser')}"></div>
+        <main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
+            <div class="table-responsive">
+                <h1 align = "center">单据查找</h1>
+                <label for="phone">输入手机号或单据号:</label>
+                <input type="text" id="inputField">
+                <button onclick="searchDocument()">查询</button>
+                <!-- 在查询按钮后添加用于显示查询结果的区域 -->
+                <div id="result"></div>
+
+
+                <table class="table table-sm table-hover table-bordered">
+                    <thead>
+                    <tr>
+                        <th>订单号</th>
+                        <th>用户id</th>
+                        <th>发货名字</th>
+                        <th>发货地址</th>
+                        <th>发货电话</th>
+                        <Th>发货邮编</Th>
+                        <th>收货人名字</th>
+                        <th>收货人地址</th>
+                        <th>收货人电话</th>
+                        <th>收货邮编</th>
+                        <th>包装</th>
+                        <th>付款方式</th>
+                        <th>付款价格</th>
+                        <th>货物名字</th>
+                        <th>货物数量</th>
+                        <th>货物重量</th>
+                        <th>发货时间</th>
+                        <th>操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="hh:${h}">
+                        <td th:text="${hh.dd_id}"></td>
+                        <td th:text="${hh.user_id}"></td>
+                        <td th:text="${hh.fh_name}"></td>
+                        <td th:text="${hh.fh_dz}"></td>
+                        <td th:text="${hh.fh_dh}"></td>
+                        <td th:text="${hh.fh_yb}"></td>
+                        <td th:text="${hh.sh_name}"></td>
+                        <td th:text="${hh.sh_dz}"></td>
+                        <td th:text="${hh.sh_phone}"></td>
+                        <td th:text="${hh.sh_yb}"></td>
+                        <td th:text="${hh.bz}"></td>
+                        <td th:text="${hh.fkfs}"></td>
+                        <td th:text="${hh.fkjg}"></td>
+                        <td th:text="${hh.huowu_name}"></td>
+                        <td th:text="${hh.huowu_sl}"></td>
+                        <td th:text="${hh.huowu_zy}"></td>
+                        <td th:text="${#dates.format(hh.sj,'yyyy-MM-dd')}"></td>
+                        <td class="center">
+                            <!--                            <a class="btn btn-success btn-sm" href="#" th:href="@{/selectById/}+${user.id}">查看</a>-->
+                            <a class="btn btn-info btn-sm"  th:href="@{/editInquiry/}+${hh.dd_id}">修改</a>
+                            <a class="btn btn-info btn-sm" th:href="@{/removeInquiry/}+${hh.dd_id}" style="background-color: red;">删除</a>
+
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+                <script>
+                    function searchDocument() {
+                        var inputValue =document.getElementById("inputField").value;
+
+                        // 发送Ajax请求到后端
+                        var xhr = new XMLHttpRequest();
+                        xhr.open("GET", "/document?inputValue="+"", true);
+                        xhr.onreadystatechange = function () {
+                            if (xhr.readyState === 4 && xhr.status === 200) {
+
+                                var response = JSON.parse(xhr.responseText);
+                                // 更新表格内容显示查询结果
+                                var tableBody = document.querySelector(".table tbody");
+                                tableBody.innerHTML = ""; // 清空表格内容
+
+                                if (inputValue.trim() === "") {
+                                    // 如果输入框为空，显示所有数据
+
+                                    response.forEach(function(item) {
+                                        var row = "<tr>";
+                                        row += "<td>" + item.ddId + "</td>";
+                                        row += "<td>" + item.userId + "</td>";
+                                        row += "<td>" + item.fhName + "</td>";
+                                        row += "<td>" + item.fhDz + "</td>";
+                                        row += "<td>" + item.fhDh + "</td>";
+                                        row += "<td>" + item.fhYb + "</td>";
+                                        row += "<td>" + item.shName + "</td>";
+                                        row += "<td>" + item.shDz + "</td>";
+                                        row += "<td>" + item.shPhone + "</td>";
+                                        row += "<td>" + item.shYb + "</td>";
+                                        row += "<td>" + item.bz + "</td>";
+                                        row += "<td>" + item.fkfs + "</td>";
+                                        row += "<td>" + item.fkjg + "</td>";
+                                        row += "<td>" + item.huowuName + "</td>";
+                                        row += "<td>" + item.huowuSl + "</td>";
+                                        row += "<td>" + item.huowuZy + "</td>";
+                                        row += "<td>" + item.sj + "</td>";
+                                        row += "<td class=\"center\">\n" +
+                                            "<!--                            <a class=\"btn btn-success btn-sm\" href=\"#\" th:href=\"@{/selectById/}+${user.id}\">查看</a>-->\n" +
+                                            "                            <a class=\"btn btn-info btn-sm\"  th:href=\"@{/editInquiry/}+${hh.dd_id}\">修改</a>\n" +
+                                            "                            <a class=\"btn btn-info btn-sm\" th:href=\"@{/removeInquiry/}+${hh.dd_id}\" style=\"background-color: red;\">删除</a>\n" +
+                                            "\n" +
+                                            "                        </td>"
+                                        row += "</tr>";
+                                        tableBody.innerHTML += row;
+                                    });
+                                } else {
+                                    // 如果有输入值，只显示符合条件的数据
+                                    response.forEach(function(item) {
+                                        if (item.ddId == parseInt(inputValue) ||item.shPhone == parseInt(inputValue)) {
+                                            var row = "<tr>";
+                                            row += "<td>" + item.ddId + "</td>";
+                                            row += "<td>" + item.userId + "</td>";
+                                            row += "<td>" + item.fhName + "</td>";
+                                            row += "<td>" + item.fhDz + "</td>";
+                                            row += "<td>" + item.fhDh + "</td>";
+                                            row += "<td>" + item.fhYb + "</td>";
+                                            row += "<td>" + item.shName + "</td>";
+                                            row += "<td>" + item.shDz + "</td>";
+                                            row += "<td>" + item.shPhone + "</td>";
+                                            row += "<td>" + item.shYb + "</td>";
+                                            row += "<td>" + item.bz + "</td>";
+                                            row += "<td>" + item.fkfs + "</td>";
+                                            row += "<td>" + item.fkjg + "</td>";
+                                            row += "<td>" + item.huowuName + "</td>";
+                                            row += "<td>" + item.huowuSl + "</td>";
+                                            row += "<td>" + item.huowuZy + "</td>";
+                                            row += "<td>" + item.sj + "</td>";
+                                            row += "<td class=\"center\">\n" +
+                                                "<!--                            <a class=\"btn btn-success btn-sm\" href=\"#\" th:href=\"@{/selectById/}+${user.id}\">查看</a>-->\n" +
+                                                "                            <a class=\"btn btn-info btn-sm\"  th:href=\"@{/editInquiry/}+${hh.dd_id}\">修改</a>\n" +
+                                                "                            <a class=\"btn btn-info btn-sm\" th:href=\"@{/removeInquiry/}+${hh.dd_id}\" style=\"background-color: red;\">删除</a>\n" +
+                                                "\n" +
+                                                "                        </td>"
+                                            row += "</tr>";
+                                            tableBody.innerHTML += row;
+                                        }
+                                    });
+                                }
+                            }
+                        };
+                        xhr.send();
+                    }
+
+
+                </script>
+
+
+            </div>
+        </main>
+    </div>
+</div>
+
+<!-- Bootstrap core JavaScript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<script type="text/javascript" src="../../../js/jquery-3.3.1.min.js"></script>
+<script type="text/javascript" src="../../../js/popper.min.js"></script>
+<script type="text/javascript" src="../../../js/bootstrap.min.js"></script>
+
+<!-- Icons -->
+<script type="text/javascript" src="../../../js/feather.min.js"></script>
+<script>
+    feather.replace()
+</script>
+
+<!-- Graphs -->
+<script type="text/javascript" src="../../../js/Chart.min.js"></script>
+<script>
+    var ctx = document.getElementById("myChart");
+    var myChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
+            datasets: [{
+                data: [15339, 21345, 18483, 24003, 23489, 24092, 12034],
+                lineTension: 0,
+                backgroundColor: 'transparent',
+                borderColor: '#007bff',
+                borderWidth: 4,
+                pointBackgroundColor: '#007bff'
+            }]
+        },
+        options: {
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero: false
+                    }
+                }]
+            },
+            legend: {
+                display: false,
+            }
+        }
+    });
+</script>
+
+</body>
+
+</html>

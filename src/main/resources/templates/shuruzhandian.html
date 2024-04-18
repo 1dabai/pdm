@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>报表管理</title>
+    <link rel="stylesheet" href="css/bootstrap.css" />
+    <link rel="stylesheet" href="css/css.css" />
+    <script type="text/javascript" src="js/jquery1.9.0.min.js"></script>
+    <script type="text/javascript" src="js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="js/sdmenu.js"></script>
+    <script type="text/javascript" src="js/laydate/laydate.js"></script>
+</head>
+<body>
+<div class="header">
+    <div class="logo"><img src="img/logo.png" /></div>
+
+    <div id="modal-container-973558" class="modal hide fade" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="width:300px; margin-left:-150px; top:30%">0
+        <div class="modal-footer">
+            <button class="btn" data-dismiss="modal" aria-hidden="true">关闭</button> <a class="btn btn-primary" style="line-height:20px;" href="登录.html">确定退出</a>
+        </div>
+    </div>
+
+</div>
+<div id="middle">
+    <div class="left">
+        <script type="text/javascript">var myMenu;window.onload =function() {myMenu =new SDMenu("my_menu");myMenu.init();};</script>
+        <div id="my_menu" class="sdmenu">
+            <div>
+                <div class="title_right"><strong>站点查询</strong></div>
+                <div style="width:900px; margin:auto">
+                    <table class="table table-bordered">
+                        <tr>
+                            <td align="right" bgcolor="#f1f1f1">请输入站点</td>
+                            <td><input type="text" name="" id="" class="span1" />
+                                <select name="select3" id="select3" class=" span1-1">
+                                    <option>郑州</option>
+                                </select></td>
+                        </tr>
+                    </table>
+                    <table class="margin-bottom-20 table  no-border">
+                        <tr>
+                            <button class="button" ><a th:href="@{/tobaobiao}">确定</a></button>
+<!--                            onclick="location.href='baobiaochaxun.html'"-->
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>

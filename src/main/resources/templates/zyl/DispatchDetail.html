@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<!-- saved from url=(0052)http://getbootstrap.com/docs/4.0/examples/dashboard/ -->
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+		<meta name="description" content="">
+		<meta name="author" content="">
+		<title>派件管理-派件详情</title>
+		<!-- Bootstrap core CSS -->
+		<link href="../../../css/bootstrap.min.css" rel="stylesheet">
+		<style type="text/css">
+			/* Chart.js */
+			@-webkit-keyframes chartjs-render-animation {
+				from {
+					opacity: 0.99
+				}
+				to {
+					opacity: 1
+				}
+			}
+			
+			@keyframes chartjs-render-animation {
+				from {
+					opacity: 0.99
+				}
+				to {
+					opacity: 1
+				}
+			}
+			
+			.chartjs-render-monitor {
+				-webkit-animation: chartjs-render-animation 0.001s;
+				animation: chartjs-render-animation 0.001s;
+			}
+		</style>
+	</head>
+
+	<body>
+		<!--顶部菜单 -->
+		<div th:replace="~{topleft::topnav}"></div>
+		<div class="container-fluid">
+			<div class="row">
+				<!--左菜单 -->
+				<div th:replace="~{topleft::#sidebarMenu(lurl='leftuser')}"></div>
+				<main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
+					<ul style="list-style: none">
+						<li><h1 style="margin: 20px 0">订单信息详情</h1></li>
+						<li><h5>运单号：<span th:text="${dispatch.order_number}"></span></h5></li>
+						<li><h5>派件员姓名：<span th:text="${dispatch.courier_name}"></span></h5></li>
+						<li><h5>派件员号码：<span th:text="${dispatch.courier_phone}"></span></h5></li>
+						<li><h5>快递状态：<span th:text="${dispatch.status}"></span></h5></li>
+						<li><h5>送出时间：<span th:text="${#dates.format(dispatch.sent_time,'yyyy-MM-dd HH:mm:ss')}"></span></h5></li>
+						<li><h5>送达时间：<span th:text="${#dates.format(dispatch.delivered_time,'yyyy-MM-dd HH:mm:ss')}"></span></h5></li>
+					</ul>
+				</main>
+			</div>
+		</div>
+		<!-- Bootstrap core JavaScript
+    ================================================== -->
+		<!-- Placed at the end of the document so the pages load faster -->
+		<script type="text/javascript" src="../../../js/jquery-3.3.1.min.js"></script>
+		<script type="text/javascript" src="../../../js/popper.min.js"></script>
+		<script type="text/javascript" src="../../../js/bootstrap.min.js"></script>
+
+		<!-- Icons -->
+		<script type="text/javascript" src="../../../js/feather.min.js"></script>
+		<script>
+			feather.replace()
+		</script>
+
+		<!-- Graphs -->
+		<script type="text/javascript" src="../../../js/Chart.min.js"></script>
+		<script>
+			var ctx = document.getElementById("myChart");
+			var myChart = new Chart(ctx, {
+				type: 'line',
+				data: {
+				},
+				options: {
+				}
+			});
+		</script>
+
+	</body>
+
+</html>

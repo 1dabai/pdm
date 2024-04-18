@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<!-- saved from url=(0052)http://getbootstrap.com/docs/4.0/examples/dashboard/ -->
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+		<meta name="description" content="">
+		<meta name="author" content="">
+		<title>派件管理-新增派件信息</title>
+		<!-- Bootstrap core CSS -->
+		<link href="../../../css/bootstrap.min.css" rel="stylesheet">
+		<style type="text/css">
+			/* Chart.js */
+			@-webkit-keyframes chartjs-render-animation {
+				from {
+					opacity: 0.99
+				}
+				to {
+					opacity: 1
+				}
+			}
+			
+			@keyframes chartjs-render-animation {
+				from {
+					opacity: 0.99
+				}
+				to {
+					opacity: 1
+				}
+			}
+			
+			.chartjs-render-monitor {
+				-webkit-animation: chartjs-render-animation 0.001s;
+				animation: chartjs-render-animation 0.001s;
+			}
+		</style>
+	</head>
+
+	<body>
+		<!--顶部菜单 -->
+		<div th:replace="~{topleft::topnav}"></div>
+		<div class="container-fluid">
+			<div class="row">
+				<!--左菜单 -->
+				<div th:replace="~{topleft::#sidebarMenu(lurl='leftuser')}"></div>
+				<main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
+					<form action="#" th:action="@{/AddDispatch}" method="post">
+						<ul style="list-style: none">
+							<li><h1 style="margin: 20px 0">新增派件信息</h1></li>
+							<li>
+								<label>运单号：</label>
+								<span th:text="${newDispatch.order_number}"></span>
+							</li>
+							<li>
+								<label>派件员姓名：</label>
+								<input type="text" name="courier_name" th:value="${newDispatch.courier_name}"/>
+							</li>
+							<li>
+								<label>派件员号码：</label>
+								<input type="text" name="courier_phone" th:value="${newDispatch.courier_phone}"/>
+							</li>
+							<li>
+								<label>快递状态：</label>
+<!--								<input type="text" name="status" th:value="${dispatch.status}"/>-->
+								<input type="radio" name="status" value="未送达" checked>
+								<label>未送达</label>
+								<input type="radio" name="status" value="已送达" >
+								<label>已送达</label>
+								<input type="radio" name="status" value="已申请退货" >
+								<label>已申请退货</label>
+							</li>
+							<li>
+								<label>送出时间：</label>
+								<input type="date" name="sent_time" min="1949-01-01" max="2099-12-31" th:value="${#dates.format(newDispatch.sent_time,'yyyy-MM-dd')}"/>
+							</li>
+							<li>
+								<input type="submit" class="btn btn-sm btn-info" value="新增"/>
+							</li>
+						</ul>
+					</form>
+				</main>
+			</div>
+		</div>
+
+		<!-- Bootstrap core JavaScript
+    ================================================== -->
+		<!-- Placed at the end of the document so the pages load faster -->
+		<script type="text/javascript" src="../../../js/jquery-3.3.1.min.js"></script>
+		<script type="text/javascript" src="../../../js/popper.min.js" ></script>
+		<script type="text/javascript" src="../../../js/bootstrap.min.js"></script>
+		<!-- Icons -->
+		<script type="text/javascript" src="../../../js/feather.min.js"></script>
+		<script>
+			feather.replace()
+		</script>
+		<!-- Graphs -->
+		<script type="text/javascript" src="../../../js/Chart.min.js"></script>
+		<script>
+			var ctx = document.getElementById("myChart");
+			var myChart = new Chart(ctx, {
+				type: 'line',
+				data: {
+				},
+				options: {
+				}
+			});
+		</script>
+
+	</body>
+
+</html>

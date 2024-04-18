@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>报表管理</title>
+    <link rel="stylesheet" href="css/bootstrap.css" />
+    <link rel="stylesheet" href="css/css.css" />
+    <script type="text/javascript" src="js/jquery1.9.0.min.js"></script>
+    <script type="text/javascript" src="js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="js/sdmenu.js"></script>
+    <script type="text/javascript" src="js/laydate/laydate.js"></script>
+</head>
+<body>
+<div class="header">
+    <div class="logo"><img src="img/logo.png" /></div>
+
+    <div id="modal-container-973558" class="modal hide fade" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="width:300px; margin-left:-150px; top:30%">0
+        <div class="modal-footer">
+            <button class="btn" data-dismiss="modal" aria-hidden="true">关闭</button> <a class="btn btn-primary" style="line-height:20px;" href="登录.html">确定退出</a>
+        </div>
+    </div>
+</div>
+
+<script>!function(){laydate.skin('molv');laydate({elem:'#Calendar'});}();</script>
+</body>
+</html>
+
+<!DOCTYPE html>
+<head>
+    <meta charset="utf-8">
+    <title>ECharts</title>
+</head>
+<body>
+<!-- 为ECharts准备一个具备大小（宽高）的Dom -->
+<div id="main" style="width:80%;height:400px;margin: 0 auto"></div>
+<!-- ;margin-top:80px;控制距离顶部距离 -->
+<div id="main2" style="width:80%;height:400px;margin: 0 auto"></div>
+<!-- ECharts单文件引入 -->
+<script src="http://echarts.baidu.com/build/dist/echarts.js"></script>
+<script type="text/javascript">
+    // 路径配置
+    require.config({
+        paths: {
+            echarts: 'http://echarts.baidu.com/build/dist'
+        }
+    });
+
+    // 使用
+    require(
+        [
+            'echarts',
+            'echarts/chart/bar', // 使用柱状图就加载bar模块，按需加载
+            'echarts/chart/line'
+        ],
+        function (ec) {
+            // 基于准备好的dom，初始化echarts图表
+            var myChart = ec.init(document.getElementById('main'));
+            var myChart2 = ec.init(document.getElementById('main2'));
+
+            var option = { //具体细节的描述
+                title: {
+                    text: 'FAST和FAST_USP算法运行时间对比（小阈值）',
+                    textStyle: { //主标题文本样式{"fontSize": 18,"fontWeight": "bolder","color": "#333"}
+                        fontSize: 14,
+                        fontStyle: 'normal',
+                        fontWeight: 'bold',
+                    },
+                },
+                tooltip: {
+                    trigger: 'axis'
+                },
+                legend: {
+                    data: ['FAST', 'FAST_USP']
+                },
+                toolbox: { //可以选择具体数据，柱状图，折线图，还原，保存图片的的切换选择
+                    show: true,
+                    feature: {
+                        dataView: {
+                            show: true,
+                            readOnly: false
+                        },
+                        magicType: {
+                            show: true,
+                            type: ['line', 'bar'] //可选折线图和柱状图
+                        },
+                        restore: {
+                            show: true  //恢复默认
+                        },
+                        saveAsImage: {
+                            show: true // 存储为图片的功能
+                        }
+                    }
+                },
+                calculable: true,
+                xAxis: [{
+                    type: 'category',
+                    //name: 'min_sup(%)'
+                    data: ['0.35', '0.3', '0.25', '0.2','0.15','0.1'],
+                    name: 'min_sup(%)',
+                    position: 'left'
+                }],
+                yAxis: [{
+                    type: 'value',
+                    name: '运行时间(s)',
+                    position: 'left'
+                }],
+                series: [{
+                    name: 'FAST',
+                    type: 'line',// bar
+                    data: [3.7, 4.2, 4.8, 5.6,7.9,18.2],
+                    color: '#CC0066'
+                },
+                    {
+                        name: 'FAST_USP',
+                        type: 'line',//bar
+                        data: [1.6, 1.8, 2.0, 2.3,2.8,6.7],
+                        color: '#009999'
+                    }
+                ]
+            };
+
+            var option2 = {
+                title: {
+                    text: 'FAST和FAST_USP算法运行时间对比（大阈值）',
+                    textStyle: { //主标题文本样式{"fontSize": 18,"fontWeight": "bolder","color": "#333"}
+                        fontSize: 14,
+                        fontStyle: 'normal',
+                        fontWeight: 'bold',
+                    },
+                },
+                tooltip: {
+                    trigger: 'axis'
+                },
+                legend: {
+                    data: ['FAST', 'FAST_USP']
+                },
+                toolbox: {
+                    show: true,
+                    feature: {
+                        dataView: {
+                            show: true,
+                            readOnly: false
+                        },
+                        magicType: {
+                            show: true,
+                            type: ['line', 'bar']
+                        },
+                        restore: {
+                            show: true
+                        },
+                        saveAsImage: {
+                            show: true
+                        }
+                    }
+                },
+                calculable: true,
+                xAxis: [{
+                    type: 'category',
+                    //name: 'min_sup(%)'
+                    data: ['1.2', '1.0', '0.8', '0.6','0.4','0.2'],
+                    name: 'min_sup(%)',
+                    position: 'left'
+                }],
+                yAxis: [{
+                    type: 'value',
+                    name: '运行时间(s)',
+                    position: 'left'
+                }],
+                series: [{
+                    name: 'FAST',
+                    type: 'bar',
+                    data: [19.5, 19.8, 21.7, 25.1,32.5,48.9],
+                    color: '#CC0066'
+                },
+                    {
+                        name: 'FAST_USP',
+                        type: 'bar',
+                        data: [15.0, 16.6, 17.3, 17.4,19.6,22.7],
+                        color: '#009999' // 设置颜色
+                    }
+                ]
+            };
+
+
+
+            // 为echarts对象加载数据
+            myChart.setOption(option);
+            myChart2.setOption(option2);
+        }
+    );
+
+</script>
+
+<script type="text/javascript">$(document).ready(function(e) {$(".Switch").click(function(){$(".left").toggle();});});</script>
+<div class="right" id="mainFrame">
+    <div class="right_cont">
+        <ul class="breadcrumb">当前位置：
+            <a th:href="@{/tobaobiao}" target="">返回</a> <span class="divider"></span>
+        </ul>
+    </div>
+</div>
+</body>

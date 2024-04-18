@@ -1,0 +1,222 @@
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+    <style type="text/css">
+        body, html{width: 100%;height: 100%;margin:0;font-family:"微软雅黑";}
+        #allmap {width:100%;height:80%;}
+        #result {width:100%}
+        #r-result{width:100%;}
+        #r-result{width:100%;}
+    </style>
+    <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=YtmxXSbklR5ff1eCiXZ2RPv41VoFmSBX"></script>
+    <script type="text/javascript" src="//api.map.baidu.com/library/LuShu/1.2/src/LuShu_min.js"></script>
+    <script src="http://libs.baidu.com/jquery/1.9.0/jquery.js"></script>
+    <script src="http://lib.sinaapp.com/js/jquery/1.9.1/jquery-1.9.1.min.js"></script>
+    <title>地图展示</title>
+</head>
+<body>
+<div id="allmap"></div>
+<div id="r-result">起始位置:<input type="text" id="suggestId" size="20" value="起点" style="width:350px;" /></div>
+<div id="searchResultPanel" style="border:1px solid #C0C0C0;width:150px;height:auto; display:none;"></div>
+<div style="height:20px;"></div>
+<div id="r-result2">终点位置:<input type="text" id="suggestId2" size="20" value="终点" style="width:350px;" /></div>
+<div id="searchResultPanel2" style="border:1px solid #C0C0C0;width:150px;height:auto; display:none;"></div>
+<div id="result" style="color:black;padding:10px"></div>
+<div id="dist" style="color:blue;padding:10px"></div>
+<div id="output" style="color:green;padding:10px"></div>
+<input type="button" onClick="Reset()" value="重置所有路线"/>
+</body>
+<script>
+    // 百度地图API功能
+    var map = new BMap.Map("allmap");    // 创建Map实例
+    map.centerAndZoom(new BMap.Point(116.404, 39.915), 14);  // 初始化地图,设置中心点坐标和地图级别
+    //添加地图类型控件
+    map.addControl(new BMap.MapTypeControl({
+        mapTypes:[
+            BMAP_NORMAL_MAP,
+            BMAP_HYBRID_MAP
+        ]}));
+    map.setCurrentCity("背景");          // 设置地图显示的城市 此项是必须设置的
+    map.enableScrollWheelZoom(true);     //开启鼠标滚轮缩放
+
+    // 添加带有定位的导航控件
+    var navigationControl = new BMap.NavigationControl({
+        // 靠左上角位置
+        anchor: BMAP_ANCHOR_TOP_LEFT,
+        // LARGE类型
+        type: BMAP_NAVIGATION_CONTROL_LARGE,
+        // 启用显示定位
+        enableGeolocation: true
+    });
+    map.addControl(navigationControl);
+    // 添加定位控件
+    var geolocationControl = new BMap.GeolocationControl();
+    geolocationControl.addEventListener("locationSuccess", function(e){
+        // 定位成功事件
+        var address = '';
+        address += e.addressComponent.province;
+        address += e.addressComponent.city;
+        address += e.addressComponent.district;
+        address += e.addressComponent.street;
+        address += e.addressComponent.streetNumber;
+        alert("当前定位地址为：" + address);
+    });
+    geolocationControl.addEventListener("locationError",function(e){
+        // 定位失败事件
+        alert(e.message);
+    });
+    map.addControl(geolocationControl);
+
+    //添加信息栏位
+    var data = new Date();
+    var year = data.getFullYear();
+    var month = data.getMonth();
+    var day = data.getDay();
+    var hours = data.getHours();
+    var min = data.getMinutes();
+    var sec = data.getSeconds();
+    var time = year + "-" + month + "-" + day + "-" + hours  + "-" + min  + "-" + sec;
+    var data_info = [
+        // [115.96637,28.693047,"地址：南昌市青山湖区高新大道590号",time],
+        // [115.963,28.691,"地址：江西省南昌市青山湖区高新三路旭日家园(北区)东北150米",time],
+        // [115.925,28.668,"地址：江西省南昌市西湖区二七南路213号",time],
+        // [115.943,28.688,"地址：南昌市青山湖区南京东路235号",time],
+        // [115.887,28.687,"地址：南昌市东湖区仿古街58号",time],
+        // [115.939,28.710,"地址：湖滨西路1号",time],
+        // [116.021,29.726,"地址：江西省九江市浔阳区师专长虹家园",time]
+    ];
+    var opts = {
+        width : 250,     // 信息窗口宽度
+        height: 120,     // 信息窗口高度
+        title : "信息窗口" , // 信息窗口标题
+        enableMessage:true//设置允许信息窗发送短息
+    };
+    for(var i=0;i<data_info.length;i++){
+        var marker = new BMap.Marker(new BMap.Point(data_info[i][0],data_info[i][1]));  // 创建标注
+        var content = data_info[i][2] + "--------" +"时间:" + data_info[i][3];
+        map.addOverlay(marker);               // 将标注添加到地图中
+        addClickHandler(content,marker);
+    }
+    function addClickHandler(content,marker){
+        marker.addEventListener("click",function(e){
+            openInfo(content,e)}
+        );
+    }
+    function openInfo(content,e){
+        var p = e.target;
+        var point = new BMap.Point(p.getPosition().lng, p.getPosition().lat);
+        var infoWindow = new BMap.InfoWindow(content,opts);  // 创建信息窗口对象
+        map.openInfoWindow(infoWindow,point); //开启信息窗口
+    }
+
+    //搜索两地之间距离和路程
+    function G(id) {
+        return document.getElementById(id);
+    }
+    var ac = new BMap.Autocomplete(    //建立一个自动完成的对象
+        {"input" : "suggestId"
+            ,"location" : map
+        });
+    var ac2 = new BMap.Autocomplete(    //建立一个自动完成的对象
+        {"input" : "suggestId2"
+            ,"location" : map
+        });
+    ac.addEventListener("onhighlight", function(e) {  //鼠标放在下拉列表上的事件
+        var str = "";
+        var _value = e.fromitem.value;
+        var value = "";
+        if (e.fromitem.index > -1) {
+            value = _value.province +  _value.city +  _value.district +  _value.street +  _value.business;
+        }
+        str = "FromItem<br />index = " + e.fromitem.index + "<br />value = " + value;
+        value = "";
+        if (e.toitem.index > -1) {
+            _value = e.toitem.value;
+            value = _value.province +  _value.city +  _value.district +  _value.street +  _value.business;
+        }
+        str += "<br />ToItem<br />index = " + e.toitem.index + "<br />value = " + value;
+        G("searchResultPanel").innerHTML = str;
+    });
+    ac2.addEventListener("onhighlight", function(e) {  //鼠标放在下拉列表上的事件
+        var str = "";
+        var _value = e.fromitem.value;
+        var value = "";
+        if (e.fromitem.index > -1) {
+            value = _value.province +  _value.city +  _value.district +  _value.street +  _value.business;
+        }
+        str = "FromItem<br />index = " + e.fromitem.index + "<br />value = " + value;
+        value = "";
+        if (e.toitem.index > -1) {
+            _value = e.toitem.value;
+            value = _value.province +  _value.city +  _value.district +  _value.street +  _value.business;
+        }
+        str += "<br />ToItem<br />index = " + e.toitem.index + "<br />value = " + value;
+        G("searchResultPanel2").innerHTML = str;
+    });
+    var myValue;
+    ac.addEventListener("onconfirm", function(e) {    //鼠标点击下拉列表后的事件
+        var _value = e.item.value;
+        myValue = _value.province +  _value.city +  _value.district +  _value.street +  _value.business;
+        G("searchResultPanel").innerHTML ="onconfirm<br />index = " + e.item.index + "<br />myValue = " + myValue;
+//setPlace();
+    });
+    var myValue2;
+    ac2.addEventListener("onconfirm", function(e) {    //鼠标点击下拉列表后的事件
+        var _value = e.item.value;
+        myValue2 = _value.province +  _value.city +  _value.district +  _value.street +  _value.business;
+        G("searchResultPanel2").innerHTML ="onconfirm<br />index = " + e.item.index + "<br />myValue = " + myValue2;
+
+//setPlace2();
+        getPoint();
+//getduration();
+    });
+    function getPoint(){
+        var myGeo = new BMap.Geocoder();
+        var points = [];
+        myGeo.getPoint(myValue, function(point){
+            if (point) {
+                document.getElementById("result").innerHTML +=  myValue + ":" + point.lng + "," + point.lat + "</br>";
+                var address = new BMap.Point(point.lng, point.lat);
+                var marker = new BMap.Marker(address);
+                map.addOverlay(marker);
+                marker.setLabel(new BMap.Label("1:"+myValue,{offset:new BMap.Size(20,-10)}));
+                points[0] = address;
+                myGeo.getPoint(myValue2, function(point){
+                    if (point) {
+                        document.getElementById("result").innerHTML +=  myValue2 + ":" + point.lng + "," + point.lat + "</br>";
+                        var address = new BMap.Point(point.lng, point.lat);
+                        var marker = new BMap.Marker(address);
+                        points[1] = address;
+                        map.addOverlay(marker);
+                        marker.setLabel(new BMap.Label("2:"+myValue2,{offset:new BMap.Size(20,-10)}));
+                        console.log(points);
+                        getduration(points[0],points[1]);
+                    }
+                }, "南昌市");
+            }
+        }, "南昌市");
+    }
+    function getduration(point1,point2){
+
+        var searchComplete = function (results){
+            if (transit.getStatus() != BMAP_STATUS_SUCCESS){
+                return ;
+            }
+            var plan = results.getPlan(0);
+            output += plan.getDuration(true) + "\n";                //获取时间
+            output += "总路程为：" ;
+            output += plan.getDistance(true) + "\n";             //获取距离
+            G("output").innerHTML =output;
+        }
+        var transit = new BMap.DrivingRoute(map, {renderOptions: {map: map},
+            onSearchComplete: searchComplete,
+            onPolylinesSet: function(){
+                setTimeout(function(){alert(output)},"1000");
+            }});
+        transit.search(point1, point2);
+    }
+    function Reset() {
+        map.clearOverlays();
+    }
+
+</script>

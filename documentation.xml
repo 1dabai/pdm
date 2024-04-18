@@ -1,0 +1,45 @@
+<!-- idea热部署相关：
+①修改file->settings->compiler->build project automatically。
+②按ctrl+shift+a，搜索Registry双击进去，点击面板搜索running，勾选running选项。
+③pom.xml添加依赖
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-devtools</artifactId>
+    <optional>true</optional>
+</dependency>
+-->
+
+<!--
+解决Mysql时区问题：
+①C:\ProgramData\MySQL\MySQL Server 8.0\my.ini
+②在 [mysqld] 之下加  default-time-zone='+08:00'  重启服务
+③！！！注意一定要在 [mysqld] 之下加 ，否则会出现 unknown variable 'default-time-zone=+8:00'
+-->
+
+<!--
+下载maven依赖太慢解决：
+https://blog.csdn.net/obukaopu1/article/details/113249913
+-->
+
+
+<!--
+ 安装lombok插件
+-->
+
+<!--
+这是Github的公钥配置说明，Gitee的配置说明可以自行搜索相关博客解决：
+https://blog.csdn.net/qq_43705131/article/details/107965888
+
+这是Gitee上传代码失败，多数都是因为公钥引起的，解决方案参照下面的博客：
+https://blog.csdn.net/Csdn_Citynorth/article/details/122162069
+
+Gitee导入代码仓库：
+    https://gitee.com/lijiang_lishihui/demo.git
+    Gitee相关操作：
+    https://blog.csdn.net/lishihuijava/article/details/129538959
+
+    IDEA导出项目说明：
+    https://blog.csdn.net/lishihuijava/article/details/129540161
+
+    test push
+-->

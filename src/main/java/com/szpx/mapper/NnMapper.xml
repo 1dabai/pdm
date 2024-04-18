@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.szpx.mapper.NnMapper">
+    <!--多条件查询 -->
+    <select id="getListByCon" resultType="nn" parameterType="nn">
+        select *
+        from nn
+    </select>
+
+    <select id="selectNnById" resultType="nn" parameterType="nn">
+        select *
+        from nn
+        where id = #{id}
+    </select>
+
+    <!--添加 -->
+    <insert id="addnn" parameterType="nn">
+        insert into nn
+        values (#{id}, #{strat}, #{end}, #{price})
+    </insert>
+
+    <!--修改-->
+    <update id="updateNoById" parameterType="nn">
+        update nn
+        set strat =#{strat},
+            end=#{end},
+            price=#{price}
+        where id = #{id}
+    </update>
+
+    <!--  删除  -->
+    <delete id="deleteNnById" parameterType="nn">
+        delete
+        from nn
+        where id = #{id}
+    </delete>
+</mapper>

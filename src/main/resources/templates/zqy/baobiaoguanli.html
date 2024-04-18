@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>报表管理</title>
+</head>
+<body>
+<main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
+    <div class="table-responsive">
+        <h1 align = "center">报表管理</h1>
+        <label for="name">输入站点:</label>
+        <input type="text" id="inputField">
+        <button onclick="searchDocument()"><a class="nav-link" th:href="@{/totubiao}"><span data-feather="layers"></span>查询</a></button>
+
+
+        <a></a>
+        <!-- 在查询按钮后添加用于显示查询结果的区域 -->
+        <div id="result"></div>
+
+        <table class="table table-sm table-hover table-bordered">
+            <table border="1" cellspacing="0" align="center">
+
+                <tr>
+                    <th width="100" height="60">站点名称</th>
+                    <th>进货</th>
+                    <th>出货</th>
+                    <th>内部信息</th>
+                    <th>收件统计</th>
+                    <Th>派件统计</Th>
+                </tr>
+
+                <tbody>
+                <tr>
+                    <td align="center">楚雄</td>
+                    <td align="center">小米14pro</td>
+                    <td align="center">小米14pro</td>
+                    <td align="center">40</td>
+                    <td align="center">6</td>
+                    <td align="center">1</td>
+                    <!--                            <a class="btn btn-success btn-sm" href="#" th:href="@{/selectById/}+${user.id}">查看</a>-->
+                    </td>
+                </tr>
+                <tr>
+                    <td align="center">曲靖</td>
+                    <td align="center">小米14pro</td>
+                    <td align="center">小米14pro</td>
+                    <td align="center">80</td>
+                    <td align="center">3</td>
+                    <td align="center">3</td>
+
+                    <!--                            <a class="btn btn-success btn-sm" href="#" th:href="@{/selectById/}+${user.id}">查看</a>-->
+                    </td>
+                </tr>
+                <tr>
+                    <td align="center">昭通</td>
+                    <td align="center">小米14pro</td>
+                    <td align="center">小米14pro</td>
+                    <td align="center">30</td>
+                    <td align="center">2</td>
+                    <td align="center">5</td>
+
+                    <!--                            <a class="btn btn-success btn-sm" href="#" th:href="@{/selectById/}+${user.id}">查看</a>-->
+                    </td>
+                </tr>
+                <tr>
+                    <td align="center">昆明</td>
+                    <td align="center">小米14pro</td>
+                    <td align="center">小米14pro</td>
+                    <td align="center">50</td>
+                    <td align="center">3</td>
+                    <td align="center">2</td>
+
+                    <!--                            <a class="btn btn-success btn-sm" href="#" th:href="@{/selectById/}+${user.id}">查看</a>-->
+                    </td>
+                </tr>
+                <tr>
+                    <td align="center">丽江</td>
+                    <td align="center">小米14pro</td>
+                    <td align="center">小米14pro</td>
+                    <td align="center">60</td>
+                    <td align="center">5</td>
+                    <td align="center">2</td>
+                    <!--                            <a class="btn btn-success btn-sm" href="#" th:href="@{/selectById/}+${user.id}">查看</a>-->
+                    </td>
+                </tr>
+
+                <tr>
+                    <td align="center">上海</td>
+                    <td align="center">小米14pro</td>
+                    <td align="center">小米14pro</td>
+                    <td align="center">70</td>
+                    <td align="center">6</td>
+                    <td align="center">4</td>
+                    <!--                            <a class="btn btn-success btn-sm" href="#" th:href="@{/selectById/}+${user.id}">查看</a>-->
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+
+            <script>
+                function searchDocument() {
+                    var inputValue =document.getElementById("inputField").value;
+
+                    // 发送Ajax请求到后端
+                    var xhr = new XMLHttpRequest();
+                    xhr.open("GET", "/document?inputValue="+"", true);
+                    xhr.onreadystatechange = function () {
+                        if (xhr.readyState === 4 && xhr.status === 200) {
+
+                            var response = JSON.parse(xhr.responseText);
+                            // 更新表格内容显示查询结果
+                            var tableBody = document.querySelector(".table tbody");
+                            tableBody.innerHTML = ""; // 清空表格内容
+
+                            if (inputValue.trim() === "") {
+                                // 如果输入框为空，显示所有数据
+
+                                response.forEach(function(item) {
+                                    var row = "<tr>";
+                                    row += "<td>" + item.ddId + "</td>";
+                                    row += "<td>" + item.userId + "</td>";
+                                    row += "<td>" + item.fhName + "</td>";
+                                    row += "<td>" + item.fhDz + "</td>";
+                                    row += "<td>" + item.fhDh + "</td>";
+                                    row += "<td>" + item.fhYb + "</td>";
+                                    row += "<td>" + item.shName + "</td>";
+                                    row += "<td>" + item.shDz + "</td>";
+                                    row += "<td>" + item.shPhone + "</td>";
+                                    row += "<td>" + item.shYb + "</td>";
+                                    row += "<td>" + item.bz + "</td>";
+                                    row += "<td>" + item.fkfs + "</td>";
+                                    row += "<td>" + item.fkjg + "</td>";
+                                    row += "<td>" + item.huowuName + "</td>";
+                                    row += "<td>" + item.huowuSl + "</td>";
+                                    row += "<td>" + item.huowuZy + "</td>";
+                                    row += "<td>" + item.sj + "</td>";
+                                    row += "<td class=\"center\">\n" +
+                                        "<!--                            <a class=\"btn btn-success btn-sm\" href=\"#\" th:href=\"@{/selectById/}+${user.id}\">查看</a>-->\n" +
+                                        "                            <a class=\"btn btn-info btn-sm\"  th:href=\"@{/editInquiry/}+${hh.dd_id}\">修改</a>\n" +
+                                        "                            <a class=\"btn btn-info btn-sm\" th:href=\"@{/removeInquiry/}+${hh.dd_id}\" style=\"background-color: red;\">删除</a>\n" +
+                                        "\n" +
+                                        "                        </td>"
+                                    row += "</tr>";
+                                    tableBody.innerHTML += row;
+                                });
+                            } else {
+                                // 如果有输入值，只显示符合条件的数据
+                                response.forEach(function(item) {
+                                    if (item.ddId == parseInt(inputValue) ||item.shPhone == parseInt(inputValue)) {
+                                        var row = "<tr>";
+                                        row += "<td>" + item.ddId + "</td>";
+                                        row += "<td>" + item.userId + "</td>";
+                                        row += "<td>" + item.fhName + "</td>";
+                                        row += "<td>" + item.fhDz + "</td>";
+                                        row += "<td>" + item.fhDh + "</td>";
+                                        row += "<td>" + item.fhYb + "</td>";
+                                        row += "<td>" + item.shName + "</td>";
+                                        row += "<td>" + item.shDz + "</td>";
+                                        row += "<td>" + item.shPhone + "</td>";
+                                        row += "<td>" + item.shYb + "</td>";
+                                        row += "<td>" + item.bz + "</td>";
+                                        row += "<td>" + item.fkfs + "</td>";
+                                        row += "<td>" + item.fkjg + "</td>";
+                                        row += "<td>" + item.huowuName + "</td>";
+                                        row += "<td>" + item.huowuSl + "</td>";
+                                        row += "<td>" + item.huowuZy + "</td>";
+                                        row += "<td>" + item.sj + "</td>";
+                                        row += "<td class=\"center\">\n" +
+                                            "<!--                            <a class=\"btn btn-success btn-sm\" href=\"#\" th:href=\"@{/selectById/}+${user.id}\">查看</a>-->\n" +
+                                            "                            <a class=\"btn btn-info btn-sm\"  th:href=\"@{/editInquiry/}+${hh.dd_id}\">修改</a>\n" +
+                                            "                            <a class=\"btn btn-info btn-sm\" th:href=\"@{/removeInquiry/}+${hh.dd_id}\" style=\"background-color: red;\">删除</a>\n" +
+                                            "\n" +
+                                            "                        </td>"
+                                        row += "</tr>";
+                                        tableBody.innerHTML += row;
+                                    }
+                                });
+                            }
+                        }
+                    };
+                    xhr.send();
+                }
+
+
+            </script>
+
+
+    </div>
+</main>
+
+</body>
+</html>

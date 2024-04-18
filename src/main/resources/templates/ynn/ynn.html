@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>物流管理系统 - 站点设置</title>
+    <!-- 引入Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- 自定义样式（如有需要） -->
+    <link rel="stylesheet" href="styles/customer-management.css">
+    <script>
+        function check_form() {
+            console.log(123)
+            return true
+        }
+    </script>
+</head>
+<body>
+
+<!-- 导航栏（简化版） -->
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav"></ul>
+    </div>
+</nav>
+
+<div class="container mt-4">
+    <h2>站点管理</h2>
+    <form action="/nnlist" method="get">
+        <div class="layui-btn-container">
+            <input type="text" name="searchId" placeholder="输入网站ID查询" class="layui-input">
+            <!--            <button type="button" class="layui-btn layui-btn-lg layui-btn-normal">查询</button>-->
+            <button type="submit" class="btn btn-primary">查询</button>
+        </div>
+    </form>
+    <!-- 操作按钮组 -->
+    <div class="row mb-3">
+        <div class="col-md-12 text-right">
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addUserModal">新增站点
+            </button>
+        </div>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    </div>
+    <!-- 添加模态框示例（Modal） -->
+    <form method="post" action="addNn" class="form-horizontal" role="form" id="form_data"
+          onsubmit="return check_form()"
+          style="margin: 20px;">
+        <div class="modal fade" id="addUserModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+             aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                            &times;
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form class="form-horizontal" role="form">
+                            <div class="form-group">
+                                <label for="id" class="col-sm-3 control-label">编号</label>
+                                <div class="col-sm-9">
+                                    <input type="text" class="form-control" id="list_id" name="id">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="strat" class="col-sm-3 control-label">起始站点</label>
+                                <div class="col-sm-9">
+                                    <input type="text" class="form-control" name="strat" id="list_strat">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="end" class="col-sm-3 control-label">结束站点</label>
+                                <div class="col-sm-9">
+                                    <input type="text" class="form-control" name="end" id="list_end">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="price" class="col-sm-3 control-label">站点价格</label>
+                                <div class="col-sm-9">
+                                    <input type="text" class="form-control" name="price" id="list_price">
+                                </div>
+                            </div>
+                        </form>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal" float="right">关闭
+                            </button>
+                            <button type="submit" class="btn btn-primary">添加</button>
+                        </div>
+                    </div><!-- /.modal-content -->
+                </div><!-- /.modal -->
+            </div>
+        </div>
+    </form>
+    <!-- 站点列表 -->
+    <!-- 修改模态框示例（Modal） -->
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th scope="col">编号</th>
+            <th scope="col">起始站点</th>
+            <th scope="col">结束站点</th>
+            <th scope="col">站点价格</th>
+            <th scope="col">操作</th>
+        </tr>
+        </thead>
+        <tbody id="customerList">
+        <!-- 动态填充站点数据，此处仅作占位 -->
+        <tr th:each="nn:${ulist}">
+            <!--                <div class="modal fade" th:id="'updateUserModal' + ${nn.id}" tabindex="-1" role="dialog"-->
+            <div class="modal fade " role="dialog" th:id="'updateUserModal' + ${nn.id}" tabindex="-1"
+                 aria-labelledby="myModalLabel"
+                 aria-hidden="true">
+                <form method="post" action="updateNn" class="form-horizontal" role="form"
+                      th:id="'form_data_update' + ${nn.id}"
+                      onsubmit="return check_form()">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                                    &times;
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <form class="form-horizontal" role="form">
+                                    <div class="form-group">
+                                        <label for="id" class="col-sm-3 control-label">编号</label>
+                                        <div class="col-sm-9">
+                                            <input type="text" class="form-control" th:value="${nn.id}" id="id"
+                                                   name="id">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="strat" class="col-sm-3 control-label">起始站点</label>
+                                        <div class="col-sm-9">
+                                            <input type="text" class="form-control" th:value="${nn.strat}" name="strat"
+                                                   id="strat">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="end" class="col-sm-3 control-label">结束站点</label>
+                                        <div class="col-sm-9">
+                                            <input type="text" class="form-control" th:value="${nn.end}" name="end"
+                                                   id="end">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="price" class="col-sm-3 control-label">站点价格</label>
+                                        <div class="col-sm-9">
+                                            <input type="text" class="form-control" th:value="${nn.price}" name="price"
+                                                   id="price">
+                                        </div>
+                                    </div>
+                                </form>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-default" data-dismiss="modal"
+                                            float="right">关闭
+                                    </button>
+                                    <button type="submit" class="btn btn-primary"
+                                            th:form="'form_data_update' + ${nn.id}">修改
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <td th:text="${nn.id}"></td>
+            <td th:text="${nn.strat}"></td>
+            <td th:text="${nn.end}"></td>
+            <td th:text="${nn.price}"></td>
+            <td>
+                <a href="#" class="btn btn-sm btn-secondary" data-toggle="modal"
+                   th:data-target="'#updateUserModal' + ${nn.id}"
+                   data-customerid="1">修改</a>
+                <a th:href="'/delNn/' + ${nn.id}" class="btn btn-sm btn-danger">删除</a>
+            </td>
+            <!--                <div class="modal fade" id="updateUserModal" tabindex="-1" role="dialog"-->
+        </tr>
+        </tbody><!-- /.modal-content -->
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    </table>
+</div><!-- /.modal -->
+
+<!-- 分页组件（根据实际需求选择合适的分页库实现） -->
+<nav aria-label="Page navigation">
+    <ul class="pagination justify-content-center">
+        <li class="page-item disabled">
+            <a class="page-link" href="/nnlist" tabindex="-1">上一页</a>
+        </li>
+        <li class="page-item"><a class="page-link" href="/nnlist?pno=1&pageSize=5">1</a></li>
+        <li class="page-item"><a class="page-link" href="/nnlist?pno=2&pageSize=5">2</a></li>
+        <li class="page-item"><a class="page-link" href="/nnlist?pno=3&pageSize=5">3</a></li>
+        <li class="page-item">
+            <a class="page-link" href="/nnlist">下一页</a>
+        </li>
+    </ul>
+</nav>
+</div>
+
+<!-- 新增站点模态框 -->
+<div class="modal fade" id="addCustomerModal" tabindex="-1" role="dialog" aria-labelledby="addCustomerModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addCustomerModalLabel">新增站点</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <!-- 填充新增站点表单 -->
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-primary" id="addNewCustomer">保存</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 编辑站点模态框 -->
+<div class="modal fade" id="editCustomerModal" tabindex="-1" role="dialog" aria-labelledby="editCustomerModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editCustomerModalLabel">编辑站点信息</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <!-- 填充编辑站点表单 -->
+                <!-- 使用AJAX动态加载对应站点数据 -->
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-primary" id="saveCustomerChanges">保存更改</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 引入jQuery、Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<!-- 自定义JavaScript（用于数据交互、表单验证等） -->
+<script src="scripts/customer-management.js"></script>
+</body>
+</html>

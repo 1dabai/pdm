@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.szpx.mapper.YonghuguanliMapper">
+    <resultMap id="BaseMap" type="com.szpx.entity.Yonghuguanli">
+        <id column="user_id" property="user_id"/>
+        <result column="user_name" property="user_name"/>
+        <result column="user_phone" property="user_phone"/>
+        <result column="user_address" property="user_address"/>
+        <result column="user_orders" property="user_orders"/>
+    </resultMap>
+
+
+    <insert id="insertYonghuguanli">
+        insert into User(id,name,phone,address,orders)
+        values (#{id},#{name},#{phone},#{address},#{orders})
+    </insert>
+    <!--    查询-->
+    <select id="selectAllYonghuguanli" resultType="com.szpx.entity.Yonghuguanli">
+        select * from User
+       <where>
+        <if test="user_name!=null and user_name!=''">user_name like concat('%',#{user_name},'%')</if>
+       </where>
+
+
+
+    </select>
+    <select id="searchDocument" resultType="com.szpx.entity.Yonghuguanli">
+        select * from User where user_id = #{inputValue};
+    </select>
+    <select id="selectbyidYonghuguanli" resultType="com.szpx.entity.Yonghuguanli">
+        select *
+        from User
+        where user_id = #{user_id}
+    </select>
+
+    <!--    用户信息修改-->
+    <update id="updateYonghuguanli">
+        update User set user_name=#{user_name},user_phone=#{user_phone},user_address=#{user_address}
+        where user_id=#{user_id}
+    </update>
+
+    <!--    用户信息添加-->
+    <insert id="addYonghuguanli">
+        insert into User(user_name,user_phone,user_address)
+        values (#{user_name},#{user_phone},#{user_address})
+    </insert>
+
+<!--    用户信息删除-->
+    <delete id="delYonghuguanli">
+        delete from User where user_id=#{user_id}
+    </delete>
+
+<!--&lt;!&ndash;    查询全部信息&ndash;&gt;-->
+<!--    <select id="getListByCon" resultType="com.szpx.entity.Yonghuguanli">-->
+<!--        select * from yonghuguanli-->
+<!--        <trim prefix="where" prefixOverrides="and || or">-->
+<!--            <if test="user_name!=null and user_name!=''">and user_name like concat('%',#{user_name},'%')</if>-->
+<!--        </trim>-->
+<!--    </select>-->
+
+
+
+</mapper>

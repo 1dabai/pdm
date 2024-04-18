@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+<!--张永丽  负责部分（派件管理）-->
+
+<head>
+    <meta charset="UTF-8">
+    <title>派件管理</title>
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+
+<style>
+    button {
+        border: none;
+    }
+
+    body {
+        font-family: Arial, sans-serif;
+    }
+
+    .search-bar {
+        margin-bottom: 20px;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    th, td {
+        border: 1px solid #ddd;
+        padding: 8px;
+        text-align: left;
+    }
+
+    th {
+        background-color: #F2F2F2;
+    }
+
+    .pagination {
+        text-align: right;
+        margin-top: 40px;
+    }
+
+</style>
+
+<body>
+<!--顶部菜单 -->
+<div th:replace="~{topleft::topnav}"></div>
+<div class="container-fluid">
+    <div class="row">
+        <div th:replace="~{topleft::#sidebarMenu(lurl='leftuser')}"></div>
+        <main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
+            <h2><a class="btn btn-success btn-sm" th:href="@{/toAddDispatch}">新增派件</a></h2>
+            <div class="search-bar">
+                <input type="text" id="inputField" name="wd" placeholder="快递状态"/>
+                <button class="btn btn-success btn-sm" onclick="searchDocument()">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                         class="bi bi-search"
+                         viewBox="0 0 16 16">
+                        <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
+                    </svg>
+                    查询
+                </button>
+                <button  class="btn btn-info btn-sm" type="reset" >
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                         class="bi bi-arrow-repeat"
+                         viewBox="0 0 16 16">
+                        <path d="M11.534 7h3.932a.25.25 0 0 1 .192.41l-1.966 2.36a.25.25 0 0 1-.384 0l-1.966-2.36a.25.25 0 0 1 .192-.41zm-11 2h3.932a.25.25 0 0 0 .192-.41L2.692 6.23a.25.25 0 0 0-.384 0L.342 8.59A.25.25 0 0 0 .534 9z"/>
+                        <path fill-rule="evenodd"
+                              d="M8 3c-1.552 0-2.94.707-3.857 1.818a.5.5 0 1 1-.771-.636A6.002 6.002 0 0 1 13.917 7H12.9A5.002 5.002 0 0 0 8 3zM3.1 9a5.002 5.002 0 0 0 8.757 2.182a.5.5 0 1 1 .771.636A6.002 6.002 0 0 1 2.083 9H3.1z"/>
+                    </svg>
+                    重置
+                </button>
+            </div>
+
+            <table>
+                <tr>
+                    <th>订单号/运单号</th>
+                    <th>派件员姓名</th>
+                    <th>派件员号码</th>
+                    <th>快递状态</th>
+                    <th>送出时间</th>
+                    <th>送达时间</th>
+                    <th>操作</th>
+                </tr>
+
+                <tbody>
+                <tr th:each="user:${toDispatchList}">
+                    <td th:text="${user.order_number}"></td>
+                    <td th:text="${user.courier_name}"></td>
+                    <td th:text="${user.courier_phone}"></td>
+                    <td th:text="${user.status}"></td>
+                    <td th:text="${#dates.format(user.sent_time,'yyyy-MM-dd')}"></td>
+                    <td th:text="${#dates.format(user.delivered_time,'yyyy-MM-dd')}"></td>
+                    <td >
+                        <a class="btn btn-success btn-sm" th:href="@{/selectByOrderNumber/}+${user.order_number}">查看</a>
+                        <a class="btn btn-info btn-sm" href="#" th:href="@{/toUpdateDispatch/}+${user.order_number}">修改</a>
+                        <a class="btn btn-danger btn-sm" href="#" th:href="@{/delDispatch/}+${user.order_number}">删除</a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+
+<!--            <p style="margin: 10px;text-align:center">共x条《x》</p>-->
+            <a>
+                <button type="button">共</button>
+                <button type="button">x</button>
+                <button type="button">页</button>
+                <button type="button">«</button>
+                <button type="button">x</button>
+                <button type="button">»</button>
+            </a>
+
+        </main>
+    </div>
+</div>
+</body>
+<script type="text/javascript" src="../../../js/jquery-3.3.1.min.js"></script>
+<script type="text/javascript" src="../../../js/popper.min.js"></script>
+<script type="text/javascript" src="../../../js/bootstrap.min.js"></script>
+
+<!-- Icons -->
+<script type="text/javascript" src="../../../js/feather.min.js"></script>
+
+<!-- Graphs -->
+<script type="text/javascript" src="../../../js/Chart.min.js"></script>
+<script>
+    var ctx = document.getElementById("myChart");
+    var myChart = new Chart(ctx, {
+        type: 'line',
+        data: {},
+        options: {}
+    })
+</script>
+</html>
